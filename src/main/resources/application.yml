@@ -1,0 +1,35 @@
+server:
+  port: 8082
+
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: true
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/realty-management
+    username: realty
+    password: realty
+    driver-class-name: org.postgresql.Driver
+  security:
+    user:
+      name: admin
+      password: 123456
+  mail:
+    username: asbahattinsalih7@gmail.com
+    port: 587
+    host: smtp.gmail.com
+    password: xlqthlihygmwijzz
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
