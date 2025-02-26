@@ -1,5 +1,8 @@
 package realtyhub.advert.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -24,6 +27,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public final class AdvertEntity {
 
     @Id
@@ -47,6 +51,7 @@ public final class AdvertEntity {
     private CurrencyCode advertCurrencyCode;
 
     @OneToOne(mappedBy = "advertEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private AddressEntity addressEntity;
 
     @Column(name = "advert_id", unique = true, nullable = false)
@@ -119,6 +124,7 @@ public final class AdvertEntity {
     private List<FeatureType> features;
 
     @OneToMany(mappedBy = "advertEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<PhotoEntity> photos = new ArrayList<>();
 
     @NotNull

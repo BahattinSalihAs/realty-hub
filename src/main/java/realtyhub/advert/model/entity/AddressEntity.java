@@ -1,5 +1,7 @@
 package realtyhub.advert.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +20,7 @@ public final class AddressEntity {
 
     @OneToOne
     @JoinColumn(name = "advert_id", referencedColumnName = "id", nullable = false)
+    @JsonBackReference
     private AdvertEntity advertEntity;
 
     private String city;
