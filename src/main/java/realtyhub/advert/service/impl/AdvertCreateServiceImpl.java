@@ -70,6 +70,7 @@ class AdvertCreateServiceImpl implements AdvertCreateService {
                 .advertId(advertNumberGenerateService.generateAdvertNumber())
                 .advertDate(LocalDate.now())
                 .features(advertCreateRequest.getFeatures())
+                .isActive(true)
                 .build();
 
         address.setAdvertEntity(advert);
