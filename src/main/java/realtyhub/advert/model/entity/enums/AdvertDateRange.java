@@ -1,5 +1,7 @@
 package realtyhub.advert.model.entity.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -13,4 +15,17 @@ public enum AdvertDateRange {
     LAST_30_DAYS(30);
 
     private final int days;
+
+    @JsonCreator
+    public static AdvertDateRange fromValue(
+            final int value
+    ){
+        for (AdvertDateRange advertDateRange : AdvertDateRange.values()) {
+            if (advertDateRange.days == value) {
+                return advertDateRange;
+            }
+        }
+        throw new IllegalArgumentException("Invalid AdvertDateRange: " + value);
+    }
+
 }

@@ -89,7 +89,7 @@ public class AdvertController {
 
     @GetMapping("/v1/adverts/filter")
     final public ResponseEntity<List<AdvertEntity>> filterAdverts(
-            @ModelAttribute final AdvertFilterRequest advertFilterRequest
+            @Valid @RequestBody final AdvertFilterRequest advertFilterRequest
     ){
         List<AdvertEntity> results = advertFilterService.searchAdverts(advertFilterRequest);
         return ResponseEntity.ok(results);

@@ -6,6 +6,7 @@ import realtyhub.advert.model.entity.enums.AdvertSortType;
 import realtyhub.advert.model.entity.enums.RoomType;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ public class AdvertFilterRequest {
     private BigDecimal maxPrice;
     private Integer minArea;
     private Integer maxArea;
-    private RoomType roomType;
+    private List<RoomType> roomTypes;
     private AdvertDateRange advertDateRange;
 
     private AdvertSortType advertSortType;
