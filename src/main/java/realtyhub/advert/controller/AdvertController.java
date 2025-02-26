@@ -5,12 +5,9 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Valid;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
-import realtyhub.advert.model.dto.request.advert.AdvertCreateRequest;
-import realtyhub.advert.model.dto.request.advert.AdvertDeleteRequest;
-import realtyhub.advert.model.dto.request.advert.AdvertUpdateRequest;
-import realtyhub.advert.service.AdvertCreateService;
-import realtyhub.advert.service.AdvertDeleteService;
-import realtyhub.advert.service.AdvertUpdateService;
+import realtyhub.advert.model.dto.request.advert.*;
+import realtyhub.advert.model.entity.AdvertEntity;
+import realtyhub.advert.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +24,9 @@ public class AdvertController {
     private final AdvertCreateService advertCreateService;
     private final AdvertUpdateService advertUpdateService;
     private final AdvertDeleteService advertDeleteService;
+    private final AdvertActivationService advertActivationService;
+    private final AdvertDeactivationService advertDeactivationService;
+    private final AdvertFilterService advertFilterService;
     private final ObjectMapper objectMapper;
     private final Validator validator;
 
@@ -49,9 +49,6 @@ public class AdvertController {
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-
-
     }
 
     @PatchMapping("/v1/adverts/update")
@@ -70,6 +67,32 @@ public class AdvertController {
         advertDeleteService.deleteAdvert(advertDeleteRequest);
 
         return ResponseEntity.status(HttpStatus.OK).body("Advert delete successful");
+    }
+
+    @PatchMapping("/v1/adverts/activate")
+    final public ResponseEntity<String> activateAdvert(
+            @Valid @RequestBody final AdvertActivationRequest advertActivationRequest
+    ){
+        advertActivationService.activateAdvert(advertActivationRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Advert activation successful");
+    }
+
+    @PatchMapping("/v1/adverts/deactivate")
+    final public ResponseEntity<String> deactivateAdvert(
+            @Valid @RequestBody final AdvertDeactivationRequest advertDeactivationRequest
+    ){
+        advertDeactivationService.deactivateAdvert(advertDeactivationRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Advert deactivation successful");
+    }
+
+    @GetMapping("/v1/adverts/filter")
+    final public ResponseEntity<List<AdvertEntity>> filterAdverts(
+            @ModelAttribute final AdvertFilterRequest advertFilterRequest
+    ){
+        List<AdvertEntity> results = advertFilterService.searchAdverts(advertFilterRequest);
+        return ResponseEntity.ok(results);
     }
 
 
