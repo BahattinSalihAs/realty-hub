@@ -121,5 +121,9 @@ public final class AdvertEntity {
     @OneToMany(mappedBy = "advertEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PhotoEntity> photos = new ArrayList<>();
 
+    @NotNull
+    @Column(name = "is_active")
+    private boolean isActive;
+
 
 }
