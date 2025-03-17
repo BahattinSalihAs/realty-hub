@@ -2,6 +2,7 @@ package realtyhub.user.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import realtyhub.user.model.dto.UserResponse;
 import realtyhub.user.model.dto.request.*;
 import realtyhub.user.model.entity.UserRole;
 import org.springframework.http.HttpStatus;
@@ -21,27 +22,25 @@ public final class AdminController {
     private final UserForgotPasswordService userForgotPasswordService;
     private final UserPasswordChangeService userPasswordChangeService;
     private final UserEmailVerificationService userEmailVerificationService;
-
+    private final UserAuthenticationService userAuthenticationService;
 
     @PostMapping("/v1/admins-verification")
     public String sendEmailVerification(
             @RequestBody @Valid final UserEmailVerificationRequest userEmailVerificationRequest
     ){
+        userEmailVerificationService.sendVerificationCodeAdminForApproval(userEmailVerificationRequest.getEmail());
         userEmailVerificationService.sendEmailVerification(userEmailVerificationRequest);
 
         return "Email verification sent";
     }
 
     @PostMapping("/v1/admins")
-    public ResponseEntity<String> registerUser(
+    public ResponseEntity<UserResponse> registerUser(
             @RequestBody @Valid final UserRegisterRequest userRegisterRequest
     ) {
-        userRegisterService.registerUser(userRegisterRequest, UserRole.ADMIN);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Admin register successful");
+        return ResponseEntity.ok(userRegisterService.registerUser(userRegisterRequest, UserRole.ADMIN));
     }
-
-
 
     @PatchMapping("/v1/admins/update")
     public ResponseEntity<String> updateUser(
@@ -49,9 +48,8 @@ public final class AdminController {
     ) {
         userUpdateService.updateUser(userUpdateRequest);
 
-        return ResponseEntity.status(HttpStatus.OK).body("Realtor update successful");
+        return ResponseEntity.status(HttpStatus.OK).body("Admin update successful");
     }
-
 
     @DeleteMapping("/v1/admins/delete")
     public ResponseEntity<String> deleteUser(
@@ -60,19 +58,17 @@ public final class AdminController {
 
         userDeleteService.deleteUser(userDeleteRequest);
 
-        return ResponseEntity.status(HttpStatus.OK).body("Realtor delete successful");
+        return ResponseEntity.status(HttpStatus.OK).body("Admin delete successful");
 
     }
 
     @PostMapping("/v1/login")
-    public String loginUser(
+    public String loginAdmin(
             @RequestBody @Valid final UserLoginRequest userLoginRequest
     ){
-
         userLoginService.login(userLoginRequest);
 
-        return "realtor login success";
-
+        return "Admin login successful";
     }
 
     @PostMapping("/v1/admins/password/forgot")
@@ -93,6 +89,14 @@ public final class AdminController {
         userPasswordChangeService.changePassword(userPasswordChangeRequest);
 
         return "password change success";
+    }
+
+    @PostMapping("/v1/auth")
+    public final ResponseEntity<UserResponse> authenticate(
+            @RequestBody @Valid final UserAuthenticationRequest userAuthenticationRequest
+    ){
+
+        return ResponseEntity.ok(userAuthenticationService.authenticate(userAuthenticationRequest));
     }
 
 }

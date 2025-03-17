@@ -7,7 +7,7 @@ import realtyhub.user.model.entity.VerificationCode;
 import realtyhub.user.repository.UserRepository;
 import realtyhub.user.repository.VerificationRepository;
 import realtyhub.user.service.UserPasswordChangeService;
-import realtyhub.common.service.PasswordEncryptorService;
+import realtyhub.common.util.PasswordEncryptorUtil;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class UserPasswordChangeServiceImpl implements UserPasswordChangeService {
 
     private final UserRepository userRepository;
-    private final PasswordEncryptorService passwordEncryptorService;
+    private final PasswordEncryptorUtil passwordEncryptorUtil;
     private final VerificationRepository verificationRepository;
 
     @Override
@@ -31,11 +31,11 @@ public class UserPasswordChangeServiceImpl implements UserPasswordChangeService 
         VerificationCode verificationCode = verificationRepository.findByEmail(userEntityFromDB.getEmail())
                 .orElseThrow(() -> new RuntimeException("Code not found"));
 
-        if (!passwordEncryptorService.matches(userPasswordChangeRequest.getOtpCode(), userEntityFromDB.getOtpCode()) || LocalDateTime.now().isAfter(verificationCode.getExpiryDate())){
+        if (!passwordEncryptorUtil.isMatch(userPasswordChangeRequest.getOtpCode(), userEntityFromDB.getOtpCode()) || LocalDateTime.now().isAfter(verificationCode.getExpiryDate())){
             throw new RuntimeException("OTP code mismatch");
         }
 
-        userEntityFromDB.setPassword(passwordEncryptorService.encryptPassword(userPasswordChangeRequest.getNewPassword()));
+        userEntityFromDB.setPassword(passwordEncryptorUtil.encryptPassword(userPasswordChangeRequest.getNewPassword()));
 
         userEntityFromDB.setLastPasswordChange(LocalDate.now().plusDays(180));
 

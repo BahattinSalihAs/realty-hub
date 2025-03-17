@@ -2,12 +2,9 @@ package realtyhub.user.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import realtyhub.common.service.CodeSenderService;
-import realtyhub.common.service.EmailSenderService;
+import realtyhub.user.model.dto.UserResponse;
 import realtyhub.user.model.dto.request.*;
-import realtyhub.user.model.entity.UserEntity;
 import realtyhub.user.model.entity.UserRole;
-import realtyhub.user.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,35 +22,31 @@ public final class RealtorController {
     private final UserForgotPasswordService userForgotPasswordService;
     private final UserPasswordChangeService userPasswordChangeService;
     private final UserEmailVerificationService userEmailVerificationService;
-    private final UserRepository userRepository;
-    private final EmailSenderService emailSenderService;
-    public static String adminCode;
+    private final UserAuthenticationService userAuthenticationService;
+
 
     @PostMapping("/v1/realtors-verification")
     public String sendEmailVerification(
             @RequestBody @Valid final UserEmailVerificationRequest userEmailVerificationRequest
     ){
-        UserEntity userEntityFromDB = userRepository.findUserEntityByUserRole(UserRole.ADMIN);
-        adminCode = String.valueOf(CodeSenderService.sendCode());
-        emailSenderService.sendEmail(userEntityFromDB.getEmail(), "VERIFY CODE REALTOR", "Code: " + adminCode + " \nfor " + userEmailVerificationRequest.getEmail() + " send if safe user!");
+        userEmailVerificationService.sendVerificationCodeRealtorForAdminApproval(userEmailVerificationRequest.getEmail());
         userEmailVerificationService.sendEmailVerification(userEmailVerificationRequest);
 
         return "Email verification sent";
     }
 
     @PostMapping("/v1/realtors")
-    public ResponseEntity<String> registerUser(
+    public ResponseEntity<UserResponse> registerRealtor(
             @RequestBody @Valid final UserRegisterRequest userRegisterRequest
     ) {
-        userRegisterService.registerUser(userRegisterRequest, UserRole.REALTOR);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Realtor register successful");
+        return ResponseEntity.ok(userRegisterService.registerUser(userRegisterRequest, UserRole.REALTOR));
     }
 
 
 
     @PatchMapping("/v1/realtors/update")
-    public ResponseEntity<String> updateUser(
+    public ResponseEntity<String> updateRealtor(
             @RequestBody @Valid final UserUpdateRequest userUpdateRequest
     ) {
         userUpdateService.updateUser(userUpdateRequest);
@@ -63,7 +56,7 @@ public final class RealtorController {
 
 
     @DeleteMapping("/v1/realtors/delete")
-    public ResponseEntity<String> deleteUser(
+    public ResponseEntity<String> deleteRealtor(
             @RequestBody @Valid final UserDeleteRequest userDeleteRequest
     ){
 
@@ -74,7 +67,7 @@ public final class RealtorController {
     }
 
     @PostMapping("/v1/login")
-    public String loginCustomer(
+    public String loginRealtor(
             @RequestBody @Valid final UserLoginRequest userLoginRequest
     ){
 
@@ -102,5 +95,13 @@ public final class RealtorController {
         userPasswordChangeService.changePassword(userPasswordChangeRequest);
 
         return "password change success";
+    }
+
+    @PostMapping("/v1/auth")
+    public final ResponseEntity<UserResponse> authenticate(
+            @RequestBody @Valid final UserAuthenticationRequest userAuthenticationRequest
+    ){
+
+        return ResponseEntity.ok(userAuthenticationService.authenticate(userAuthenticationRequest));
     }
 }

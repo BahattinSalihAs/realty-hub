@@ -3,6 +3,9 @@ server:
 
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,6 +20,8 @@ spring:
     user:
       name: admin
       password: 123456
+    jwt:
+      secret: "salihsalihsalisahlikdsalihsalihsalihsailhsalihsalihsalihsalihsalihsalih"
   mail:
     username: asbahattinsalih7@gmail.com
     port: 587

@@ -1,16 +1,23 @@
 package realtyhub.advert.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import realtyhub.advert.model.dto.request.advert.AdvertCreateRequest;
 import realtyhub.advert.model.entity.enums.*;
 import realtyhub.advert.model.entity.photos.PhotoEntity;
 import realtyhub.common.serialize.BigDecimalSerializer;
+import realtyhub.user.model.entity.UserEntity;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -24,10 +31,12 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class AdvertEntity {
+@ToString
+public final class AdvertEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     @NotBlank
@@ -45,9 +54,6 @@ public final class AdvertEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "currency_code", nullable = false)
     private CurrencyCode advertCurrencyCode;
-
-    @OneToOne(mappedBy = "advertEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private AddressEntity addressEntity;
 
     @Column(name = "advert_id", unique = true, nullable = false)
     private Long advertId;
@@ -90,7 +96,7 @@ public final class AdvertEntity {
     @NotNull
     @Column(name = "bath_number")
     @Positive(message = "Bath number just must be positive!")
-    private int bathNumber;
+    private int totalBathNumber;
 
     @NotNull
     @Column(name = "is_balcony")
@@ -118,12 +124,30 @@ public final class AdvertEntity {
     @Enumerated(EnumType.STRING)
     private List<FeatureType> features;
 
-    @OneToMany(mappedBy = "advertEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "advertEntity")
+    @JsonManagedReference
     private List<PhotoEntity> photos = new ArrayList<>();
+
+    @OneToOne
+    private AddressEntity addressEntity;
 
     @NotNull
     @Column(name = "is_active")
+    @JsonIgnore
     private boolean isActive;
 
+    @ManyToOne
+    @JoinColumn(name = "realtor_id")
+    private UserEntity realtor;
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof AdvertCreateRequest advert)) return false;
+        return getGrossArea() == advert.getGrossArea() && getNetArea() == advert.getNetArea() && getBuildAge() == advert.getBuildAge() && getFloorNumber() == advert.getFloorNumber() && getTotalFloors() == advert.getTotalFloors() && getTotalBathNumber() == advert.getTotalBathNumber() && isBalcony() == advert.isBalcony() && isWithFurniture() == advert.isWithFurniture() && isSideInSide() == advert.isSideInSide() && Objects.equals(getTitle(), advert.getTitle()) && Objects.equals(getAdvertPrice(), advert.getAdvertPrice()) && getAdvertCurrencyCode() == advert.getAdvertCurrencyCode() && getRoomType() == advert.getRoomType() && getHeatType() == advert.getHeatType() && getUseCase() == advert.getUseCase() && Objects.equals(getAdvertDescription(), advert.getAdvertDescription()) && Objects.equals(getFeatures(), advert.getFeatures());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getTitle(), getAdvertPrice(), getAdvertCurrencyCode(), getGrossArea(), getNetArea(), getRoomType(), getBuildAge(), getFloorNumber(), getTotalFloors(), getHeatType(), getTotalBathNumber(), isBalcony(), isWithFurniture(), getUseCase(), isSideInSide(), getAdvertDescription(), getFeatures());
+    }
 }

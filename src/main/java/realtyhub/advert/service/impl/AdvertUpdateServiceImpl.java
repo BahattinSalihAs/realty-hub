@@ -21,7 +21,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AdvertUpdateServiceImpl implements AdvertUpdateService {
     private final AdvertRepository advertRepository;
-    private final AddressRepository addressRepository;
     private final PhotoRepository photoRepository;
 
     @Override
@@ -72,8 +71,8 @@ public class AdvertUpdateServiceImpl implements AdvertUpdateService {
         if (request.getHeatType() != null) {
             advertEntityFromDB.setHeatType(request.getHeatType());
         }
-        if (request.getBathNumber() > 0){
-            advertEntityFromDB.setBathNumber(request.getBathNumber());
+        if (request.getTotalBathNumber() > 0){
+            advertEntityFromDB.setTotalBathNumber(request.getTotalBathNumber());
         }
         if (request.isBalcony()){
             advertEntityFromDB.setBalcony(true);

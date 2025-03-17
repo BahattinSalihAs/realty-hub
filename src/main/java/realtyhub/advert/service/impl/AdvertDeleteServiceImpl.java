@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 final class AdvertDeleteServiceImpl implements AdvertDeleteService {
     private final AdvertRepository advertRepository;
-    private final AddressRepository addressRepository;
-    private final PhotoRepository photoRepository;
 
     @Override
     public final void deleteAdvert(
@@ -22,9 +20,6 @@ final class AdvertDeleteServiceImpl implements AdvertDeleteService {
     ) {
         AdvertEntity advertEntityFromDB = advertRepository.findByAdvertId(advertDeleteRequest.getAdvertId())
                 .orElseThrow(() -> new RuntimeException("Advert not found"));
-
-        //advertEntityFromDB = advertRepository.save(advertEntityFromDB);
-
         advertRepository.delete(advertEntityFromDB);
     }
 }

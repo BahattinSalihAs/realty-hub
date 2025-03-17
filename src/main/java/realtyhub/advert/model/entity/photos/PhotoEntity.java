@@ -1,5 +1,6 @@
 package realtyhub.advert.model.entity.photos;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import realtyhub.advert.model.entity.AdvertEntity;
@@ -24,6 +25,7 @@ public final class PhotoEntity {
 
     @ManyToOne
     @JoinColumn(name = "advert_entity")
+    @JsonBackReference
     private AdvertEntity advertEntity;
 
     @Column(name = "file_path")

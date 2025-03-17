@@ -1,5 +1,6 @@
-package realtyhub.common.service;
+package realtyhub.common.util;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.SimpleMailMessage;
@@ -8,7 +9,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class EmailSenderService {
+@Builder
+public class EmailSenderUtil {
     private final JavaMailSender mailSender;
 
     public final void sendEmail(
