@@ -22,16 +22,16 @@ public class AdvertSpecificationServiceImpl implements AdvertSpecificationServic
             final AdvertFilterRequest filter
     ) {
         return (root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
+            final List<Predicate> predicates = new ArrayList<>();
 
-            if (filter.getCity() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("city"), filter.getCity()));
+            if (filter.getCity() != null && !filter.getCity().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(root.get("addressEntity").get("city"), filter.getCity()));
             }
             if (filter.getDistrict() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("district"), filter.getDistrict()));
+                predicates.add(criteriaBuilder.equal(root.get("addressEntity").get("district"), filter.getDistrict()));
             }
             if (filter.getNeighborhood() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("neighborhood"), filter.getNeighborhood()));
+                predicates.add(criteriaBuilder.equal(root.get("addressEntity").get("neighborhood"), filter.getNeighborhood()));
             }
             if (filter.getMinPrice() != null) {
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("advertPrice"), filter.getMinPrice()));
@@ -40,10 +40,10 @@ public class AdvertSpecificationServiceImpl implements AdvertSpecificationServic
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("advertPrice"), filter.getMaxPrice()));
             }
             if (filter.getMinArea() != null){
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("area"), filter.getMinArea()));
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("grossArea"), filter.getMinArea()));
             }
             if (filter.getMaxArea() != null){
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("area"), filter.getMaxArea()));
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("grossArea"), filter.getMaxArea()));
             }
             if (filter.getRoomType() != null) {
                 predicates.add(criteriaBuilder.equal(root.get("roomType"), filter.getRoomType()));

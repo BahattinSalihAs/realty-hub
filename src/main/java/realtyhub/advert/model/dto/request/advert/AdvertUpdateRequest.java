@@ -30,7 +30,7 @@ public class AdvertUpdateRequest {
     private int floorNumber;
     private int totalFloors;
     private HeatType heatType;
-    private int bathNumber;
+    private int totalBathNumber;
     private boolean isBalcony;
     private boolean isWithFurniture;
     private UseCase useCase;

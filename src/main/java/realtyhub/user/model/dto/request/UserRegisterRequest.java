@@ -11,6 +11,7 @@ import lombok.*;
 public final class UserRegisterRequest {
 
     private String code;
+    private String verifyCode;
     private String codeAdmin;
     private String name;
     private String surname;

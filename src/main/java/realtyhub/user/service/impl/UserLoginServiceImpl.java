@@ -5,26 +5,26 @@ import realtyhub.user.model.dto.request.UserLoginRequest;
 import realtyhub.user.model.entity.UserEntity;
 import realtyhub.user.repository.UserRepository;
 import realtyhub.user.service.UserLoginService;
-import realtyhub.common.service.PasswordEncryptorService;
+import realtyhub.common.util.PasswordEncryptorUtil;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
 class UserLoginServiceImpl implements UserLoginService {
+
     private final UserRepository userRepository;
-    private final PasswordEncryptorService passwordEncryptorService;
+    private final PasswordEncryptorUtil passwordEncryptorUtil;
 
     @Override
-    public void login(
+    public final void login(
             final UserLoginRequest userLoginRequest
     ) {
 
-        UserEntity userEntityFromDB = userRepository.findByEmail(userLoginRequest.getEmail())
+        final UserEntity userEntityFromDB = userRepository.findByEmail(userLoginRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!passwordEncryptorService.matches(userLoginRequest.getPassword(), userEntityFromDB.getPassword())) {
+        if (!passwordEncryptorUtil.isMatch(userLoginRequest.getPassword(), userEntityFromDB.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
 
@@ -33,4 +33,5 @@ class UserLoginServiceImpl implements UserLoginService {
         }
 
     }
+
 }

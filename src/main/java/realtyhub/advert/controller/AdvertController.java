@@ -1,9 +1,6 @@
 package realtyhub.advert.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Valid;
-import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import realtyhub.advert.model.dto.request.advert.*;
 import realtyhub.advert.model.entity.AdvertEntity;
@@ -13,42 +10,26 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/realty-management/advert")
 public class AdvertController {
-    private final AdvertCreateService advertCreateService;
     private final AdvertUpdateService advertUpdateService;
     private final AdvertDeleteService advertDeleteService;
     private final AdvertActivationService advertActivationService;
     private final AdvertDeactivationService advertDeactivationService;
     private final AdvertFilterService advertFilterService;
-    private final ObjectMapper objectMapper;
-    private final Validator validator;
+    private final AdvertCreateAndPhotoCreateService advertCreateAndPhotoCreateService;
 
     @PostMapping(value = "/v1/adverts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     final public ResponseEntity<String> createAdvert(
             @RequestPart(value = "advert") final String advertJson,
             @RequestPart(value = "photos", required = false) final List<MultipartFile> photos
-            ) {
-        try {
-            AdvertCreateRequest advertCreateRequest = objectMapper.readValue(advertJson, AdvertCreateRequest.class);
+    ) {
 
-            Set<ConstraintViolation<AdvertCreateRequest>> violations = validator.validate(advertCreateRequest);
-            if (!violations.isEmpty()) {
-                return ResponseEntity.badRequest().body("Invalid advert JSON: " + violations.iterator().next().getMessage());
-            }
-
-            advertCreateRequest.setPhotos(photos);
-            advertCreateService.createAdvert(advertCreateRequest);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Advert create successful");
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return advertCreateAndPhotoCreateService.createAdvertAndPhoto(advertJson, photos);
     }
 
     @PatchMapping("/v1/adverts/update")
@@ -60,7 +41,7 @@ public class AdvertController {
         return ResponseEntity.status(HttpStatus.OK).body("Advert update successful");
     }
 
-    @DeleteMapping("/v1/adverts/delete")
+    @DeleteMapping("/v1/adverts")
     final public ResponseEntity<String> deleteAdvert(
             @Valid @RequestBody final AdvertDeleteRequest advertDeleteRequest
     ){
@@ -89,10 +70,10 @@ public class AdvertController {
 
     @GetMapping("/v1/adverts/filter")
     final public ResponseEntity<List<AdvertEntity>> filterAdverts(
-            @ModelAttribute final AdvertFilterRequest advertFilterRequest
+            @RequestBody @Valid final AdvertFilterRequest advertFilterRequest
     ){
-        List<AdvertEntity> results = advertFilterService.searchAdverts(advertFilterRequest);
-        return ResponseEntity.ok(results);
+
+        return ResponseEntity.ok(advertFilterService.searchAdverts(advertFilterRequest));
     }
 
 

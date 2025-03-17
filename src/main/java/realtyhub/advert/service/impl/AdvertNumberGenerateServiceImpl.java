@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import realtyhub.advert.repository.AdvertRepository;
 import realtyhub.advert.service.AdvertNumberGenerateService;
 import org.springframework.stereotype.Service;
-
 import java.util.Random;
 
 @Service

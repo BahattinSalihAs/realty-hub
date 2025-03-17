@@ -1,4 +1,4 @@
-package realtyhub.common.service;
+package realtyhub.common.util;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PasswordEncryptorService {
+public class PasswordEncryptorUtil {
 
     public String encryptPassword(
             final String rawPassword
@@ -14,10 +14,11 @@ public class PasswordEncryptorService {
         return BCrypt.hashpw(rawPassword, BCrypt.gensalt());
     }
 
-    public boolean matches(
+    public boolean isMatch(
             final String rawPassword,
             final String hashedPassword
     ){
         return BCrypt.checkpw(rawPassword, hashedPassword);
     }
+
 }

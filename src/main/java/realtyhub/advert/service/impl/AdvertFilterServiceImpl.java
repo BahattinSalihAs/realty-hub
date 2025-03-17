@@ -18,6 +18,7 @@ public class AdvertFilterServiceImpl implements AdvertFilterService {
 
     @Override
     public List<AdvertEntity> searchAdverts(AdvertFilterRequest filter) {
+
         return advertRepository.findAll(advertSpecificationService.filterBy(filter));
     }
 }
