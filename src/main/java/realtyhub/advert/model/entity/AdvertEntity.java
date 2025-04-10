@@ -14,6 +14,7 @@ import realtyhub.user.model.entity.UserEntity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -149,5 +150,13 @@ public final class AdvertEntity implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getTitle(), getAdvertPrice(), getAdvertCurrencyCode(), getGrossArea(), getNetArea(), getRoomType(), getBuildAge(), getFloorNumber(), getTotalFloors(), getHeatType(), getTotalBathNumber(), isBalcony(), isWithFurniture(), getUseCase(), isSideInSide(), getAdvertDescription(), getFeatures());
+    }
+
+
+    public String getFirstPhotoUrl(){
+        if (photos != null && !photos.isEmpty()){
+            return "/uploads/" + Paths.get(photos.get(0).getFilePath()).getFileName().toString();
+        }
+        return "/küp.png";
     }
 }

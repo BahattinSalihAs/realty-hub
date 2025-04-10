@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Register</title>
+</head>
+<body>
+<h2>Admin Kayıt olma</h2>
+<hr>
+
+<form id="registerForm" th:action="@{/api/realty-management/admin/v1/admins}" th:object="${registerForm}" th:method="post">
+
+    <label for="code">E-posta Adresinize Gelen Kodu Giriniz:</label>
+    <input type="number" id="code" name="code" th:field="*{code}" required /><br>
+
+    <label for="email">E-posta Adresinizi Giriniz:</label>
+    <input type="email" id="email" name="email" th:field="*{email}" required /><br>
+
+    <label for="password">Şifrenizi Giriniz:</label>
+    <input type="password" id="password" name="password" th:field="*{password}" required /><br>
+
+    <label for="name">Adınızı Giriniz:</label>
+    <input type="text" id="name" name="name" th:field="*{name}" required /><br>
+
+    <label for="surname">Soyadınızı Giriniz:</label>
+    <input type="text" id="surname" name="surname" th:field="*{surname}" required /><br>
+
+    <label for="age">Yaşınızı Giriniz:</label>
+    <input type="number" id="age" name="age" th:field="*{age}" required /><br>
+
+    <label for="phoneNumber">Telefon Numaranızı Giriniz:</label>
+    <input type="number" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}" required /><br>
+
+    <button type="submit" id="btn">Kayıt Ol</button>
+</form>
+
+<!-- th:src="@{/assets/js/register.js}" -->
+<script></script>
+</body>
+</html>

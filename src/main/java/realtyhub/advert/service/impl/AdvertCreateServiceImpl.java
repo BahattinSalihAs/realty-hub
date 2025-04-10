@@ -3,6 +3,7 @@ package realtyhub.advert.service.impl;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import realtyhub.advert.model.dto.request.advert.AdvertCreateRequest;
 import realtyhub.advert.model.entity.AddressEntity;
 import realtyhub.advert.model.entity.AdvertEntity;
@@ -45,8 +46,9 @@ class AdvertCreateServiceImpl implements AdvertCreateService {
     public void createAdvert(
             final AdvertCreateRequest advertCreateRequest
     ) {
+        final String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        UserEntity userEntityFromDB = userRepository.findByEmail(advertCreateRequest.getEmail())
+        final UserEntity userEntityFromDB = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (userEntityFromDB.getUserRole() != UserRole.REALTOR) {

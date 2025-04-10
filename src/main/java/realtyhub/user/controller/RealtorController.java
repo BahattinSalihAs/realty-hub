@@ -2,6 +2,10 @@ package realtyhub.user.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import realtyhub.user.model.dto.UserResponse;
 import realtyhub.user.model.dto.request.*;
 import realtyhub.user.model.entity.UserRole;
@@ -10,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import realtyhub.user.service.*;
 
-@RestController
+import javax.print.attribute.standard.Media;
+
+@Controller
 @RequestMapping("/api/realty-management/realtor")
 @RequiredArgsConstructor
 public final class RealtorController {
@@ -25,22 +31,48 @@ public final class RealtorController {
     private final UserAuthenticationService userAuthenticationService;
 
 
-    @PostMapping("/v1/realtors-verification")
-    public String sendEmailVerification(
-            @RequestBody @Valid final UserEmailVerificationRequest userEmailVerificationRequest
+    @GetMapping("/v1/realtors-verification")
+    public String showForm(
+            final Model model
     ){
-        userEmailVerificationService.sendVerificationCodeRealtorForAdminApproval(userEmailVerificationRequest.getEmail());
+        model.addAttribute("realtors", new UserEmailVerificationRequest());
+        return "realtors";
+    }
+
+    @PostMapping(value = "/v1/realtors-verification", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> sendEmailVerification(
+            @RequestBody@Valid final UserEmailVerificationRequest userEmailVerificationRequest
+    ){
+
         userEmailVerificationService.sendEmailVerification(userEmailVerificationRequest);
 
-        return "Email verification sent";
+        return ResponseEntity.ok("OK!");
+    }
+
+    @GetMapping("/v1/realtors")
+    public String showRegisterPage(
+            final Model model
+    ) {
+        model.addAttribute("realtorsRegisterForm", new UserRegisterRequest());
+
+        return "realtorsRegister";
     }
 
     @PostMapping("/v1/realtors")
-    public ResponseEntity<UserResponse> registerRealtor(
-            @RequestBody @Valid final UserRegisterRequest userRegisterRequest
+    public String registerRealtor(
+            @ModelAttribute("realtorsRegisterForm") @Valid final UserRegisterRequest userRegisterRequest,
+            final BindingResult result,
+            final Model model
     ) {
 
-        return ResponseEntity.ok(userRegisterService.registerUser(userRegisterRequest, UserRole.REALTOR));
+        if (result.hasErrors()){
+            return "realtorsRegister";
+        }
+        UserResponse ur = userRegisterService.registerUser(userRegisterRequest, UserRole.REALTOR);
+        model.addAttribute("message", "Hoşgeldin gayrimenkul danışmanı " + userRegisterRequest.getName() + " " + userRegisterRequest.getSurname());
+
+
+        return "realtorsRegister-successed";
     }
 
 
@@ -54,8 +86,15 @@ public final class RealtorController {
         return ResponseEntity.status(HttpStatus.OK).body("Realtor update successful");
     }
 
+    @GetMapping("/v1/realtors/delete")
+    public String showDeleteForm(
+            final Model model
+    ){
+        model.addAttribute("realtorsDelete", new UserDeleteRequest());
+        return "realtorsDelete";
+    }
 
-    @DeleteMapping("/v1/realtors/delete")
+    @DeleteMapping(value = "/v1/realtors/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteRealtor(
             @RequestBody @Valid final UserDeleteRequest userDeleteRequest
     ){
@@ -64,6 +103,12 @@ public final class RealtorController {
 
         return ResponseEntity.status(HttpStatus.OK).body("Realtor delete successful");
 
+    }
+
+    @GetMapping("/systems")
+    public String systems(){
+
+        return "systems";
     }
 
     @PostMapping("/v1/login")

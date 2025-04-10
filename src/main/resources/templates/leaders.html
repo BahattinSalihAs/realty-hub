@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>realtyhub ADMIN Home Page</title>
+</head>
+<body>
+
+<h2>realtyhub ADMIN Home Page</h2>
+
+<hr>
+
+<p>
+    See you in Brazil ... for our annual Leadership retreat!
+    <br>
+    Welcome To Admin Page
+</p>
+
+<hr>
+
+<a th:href="@{/api/realty-management/realtor/v1/realtors-verification}">Come To Realtor Add Page</a>
+
+<hr>
+
+<a th:href="@{/api/realty-management/realtor/v1/realtors/delete}">Come To Realtor Delete Page</a>
+
+<hr>
+
+<a th:href="@{/api/realty-management/admin/v1/login-success}">Back To Home Page</a>
+</body>
+</html>

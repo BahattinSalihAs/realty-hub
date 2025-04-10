@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtor Register Successed</title>
+</head>
+<body>
+<h1>Hey Admin Emlakçı Kaydı Başarılı</h1>
+
+<span th:text="${message}" th:style="'font-size: 18px; font-weight: bold; color: black'"></span><br>
+
+
+<a th:href="@{/api/realty-management/admin/v1/login}" class="btn btn-primary">
+    Login Page Continue
+</a>
+
+</body>
+</html>

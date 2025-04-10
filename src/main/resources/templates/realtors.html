@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtor Mail Onayı</title>
+</head>
+<body>
+<h2>Realtor Mail Onaylama</h2>
+
+<form id="realtorsForm" th:action="@{/api/realty-management/realtor/v1/realtors/delete}" th:object="${realtors}" th:method="POST">
+    <label for="email">E-posta Adresinizi Giriniz:</label>
+    <input type="email" id="email" name="email" th:field="*{email}" required />
+    <button type="submit">Gönder</button>
+</form>
+
+
+<script th:src="@{/assets/js/realtors-verification.js}"></script>
+</body>
+</html>

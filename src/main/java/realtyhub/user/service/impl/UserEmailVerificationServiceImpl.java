@@ -66,10 +66,4 @@ class UserEmailVerificationServiceImpl implements UserEmailVerificationService {
 
     }
 
-    @Override
-    public void sendVerificationCodeAdminForApproval(String email) {
-        verifyCode = String.valueOf(CodeSenderUtil.sendCode());
-        emailSenderService.sendEmail("b.s.a@outlook.com.tr", "VERIFY CODE ADMIN", "Code: " + verifyCode + " \nfor " + email + " send if safe admin!");
-    }
-
 }
