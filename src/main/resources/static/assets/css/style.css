@@ -1,0 +1,339 @@
+body{
+    background-image: url("atesalp_insaat.png");
+    background-size: calc(100% + -1000px);
+}
+hr {
+    border: none;
+    height: 1px;
+    width: 100%;
+    background: black;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 25px 0;
+}
+
+#listingResult {
+    border: 2px #ddd solid;
+    border-radius: 24px;
+    padding: 10px;
+    margin: 20px auto;
+    width: 300px;
+    background-color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: absolute;
+    left: 80px;
+    bottom: 100px;
+}
+h5{
+    font-weight: bolder;
+}
+/*Button Box*/
+.button-box {
+    width: 285px;
+    margin: 25px auto;
+    left: 0px;
+    position: relative;
+    border-radius: 20px;
+    background: rgba(128, 128, 128, 0.3);
+    border: 3px solid white;
+    -webkit-box-shadow: 1px 0px 0px 8px rgb(0, 0, 0);
+    -moz-box-shadow: 1px 0px 0px 8px rgb(0, 0, 0);
+    box-shadow: 1px 0px 0px 8px rgba(0, 0, 0, 0.75);
+}
+
+.toggle-btn {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    padding: 10px 40px;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    outline: none;
+    position: relative;
+    text-align: center;
+}
+
+#btn {
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 142.5px;
+    height: 100%;
+    background: orange;
+    border-radius: 18px;
+    transition: .5s;
+}
+/* Checkbox Container*/
+.checkbox-container{
+    display: none;
+}
+#checkboxGroupKiralik{
+    margin-left: 55px;
+}
+#checkboxGroupSatilik{
+    margin-left: 32.5px;
+}
+.checkbox-container.visible{
+    display: inline-block;
+}
+.checkbox-container label{
+
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1em;
+    margin-left: 3px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+.checkbox-container input[type="checkbox"]{
+    appearance: none;
+    outline: 1px solid black;
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+    border-radius: 6px;
+    display: inline-block;
+    margin-right: 30px;
+    margin-bottom: 20px;
+    vertical-align: middle;
+    position: relative;
+    cursor: pointer;
+    transform: scale(1.5);
+}
+.checkbox-container input[type="checkbox"]::before{
+    position: absolute;
+    content: "\2713";
+    font-size: 50px;
+    line-height: 15px;
+    color: orange;
+    transform: scale(0);
+}
+.checkbox-container input[type="checkbox"]:checked{
+    background-color: black;
+}
+.checkbox-container input[type="checkbox"]:checked::before{
+    transform: scale(1);
+}
+button{
+    padding: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* multiselect adress*/
+
+h1 {
+    text-align: left;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+select{
+    width: 300px;
+    height: 40px;
+    padding: 8px;
+    margin-bottom: 2px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 2.5px solid black;
+    cursor: pointer;
+}
+
+/* Select2 Custom Style */
+.select2-container--default .select2-selection--multiple {
+    padding: 2px;
+    border: 2.5px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 300px;
+    height: 40px;
+}
+
+.select2-selection__rendered {
+    white-space: normal;
+    cursor: pointer;
+}
+
+#ilce:disabled{
+    background-color: orange;
+}
+#mahalle:disabled{
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+
+/* Genel stil */
+input[type="text"] {
+    width: 280px;
+    height: 20px;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 10px;
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+}
+
+input[type="text"]:focus {
+    border-color: orange;
+    outline: none;
+}
+
+/*  Toggle date buttons */
+.toggle-date {
+    display: flex;
+    position: relative;
+    border-radius: 16px;
+    padding: .125em;
+
+}
+
+.toggle-date-checkbox {
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+    z-index: 1;
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.toggle-date-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-radius: 20px;
+    padding: 0px;
+    gap: 10px;
+    width: 50px;
+    height: 23px;
+    background-color: orange;
+    box-shadow:
+            inset 0 0 .0625em .125em rgb(255 255 255 / .2),
+            inset 0 .0625em .125em rgb(0 0 0 / .4);
+    transition: background-color .4s linear;
+
+    .toggle-date-checkbox:checked + & {
+        background-color: rgba(0, 0, 0, 0.75);
+    }
+}
+
+.toggle-date-button {
+    display: flex;
+    position: absolute;
+    left: .02em;
+    border-radius: 4px;
+    width: 1.375em;
+    height: 1.4em;
+    background-color: #e4ddcf;
+    box-shadow:
+            inset 0 -.0625em .0625em .125em rgb(0 0 0 / .1),
+            inset 0 -.125em .0625em rgb(0 0 0 / .2),
+            inset 0 .1875em .0625em rgb(255 255 255 / .3),
+            0 .125em .125em rgb(0 0 0 / .5);
+    transition: left .4s/*cubic-bezier(.65, 1.35, .5, 1)*/;
+
+    .toggle-date-checkbox:checked + .toggle-date-container > & {
+        left: 1.5625em;
+    }
+}
+
+.toggle-date-container:hover{
+    background-color: #f3b519;
+}
+.toggle-date-text{
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    transition: all 0.2s ease;
+    padding: 4px 6px;
+    border-radius: 4px;
+}
+.toggle-date-text:hover{
+    color: rgba(255, 165, 0, 0.5);
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.75);
+    transform: scale(1.03);
+}
+
+/* added */
+.orange-select {
+    background-color: #fbbf24; /* turuncu */
+    color: #333;
+}
+
+.gray-select {
+    background-color: #a3a3a3; /* gri */
+    color: white;
+}
+
+.search-button{
+    display: inline-block;
+    border-radius: 10px;
+    background-color: orange;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 290px;
+    height: 40px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+.search-button span{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+    transform: translateY(-15px);
+}
+.search-button span:after{
+    content: "";
+    background: url(buyutec.png);
+    background-position-x: 9px;
+    background-position-y: -12px;
+    background-size: 100% 100%;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+.search-button:hover span{
+    padding-right: 45px;
+}
+.search-button:hover span:after{
+    opacity: 1;
+    right: 0;
+}
+.search-button:hover{
+    transform: scale(1.1);
+}
+
+select {
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 5px 15px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #ffa726;
+    box-shadow: 0 0 0 3px rgba(255,167,38,0.2);
+    outline: none;
+}
+

@@ -14,8 +14,4 @@ public interface UserEmailVerificationService {
             final String email
     );
 
-    void sendVerificationCodeAdminForApproval(
-            final String email
-    );
-
 }

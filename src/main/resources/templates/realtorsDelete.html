@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Realtor Delete Page</title>
+</head>
+<body>
+
+<h2>Realtor Hesabı Silme</h2>
+
+<form id="realtorsDeleteForm" th:action="@{/api/realty-management/realtor/v1/realtors-verification}" th:object="${realtorsDelete}" th:method="DELETE">
+    <label for="email">E-posta Adresinizi Giriniz:</label>
+    <input type="email" id="email" name="email" th:field="*{email}" required /><br>
+
+    <label for="password">Şifrenizi Giriniz:</label>
+    <input type="password" id="password" name="password" th:field="*{password}" required /><br>
+
+    <button type="submit">Gönder</button>
+</form>
+
+
+<script th:src="@{/assets/js/realtors-delete.js}"></script>
+</body>
+</html>

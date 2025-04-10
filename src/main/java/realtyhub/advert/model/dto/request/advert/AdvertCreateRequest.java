@@ -17,7 +17,6 @@ import java.util.List;
 @Builder
 public class AdvertCreateRequest {
 
-    private String email;
     private String title;
     private BigDecimal advertPrice;
     private CurrencyCode advertCurrencyCode;

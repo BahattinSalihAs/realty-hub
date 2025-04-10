@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import realtyhub.advert.service.AdvertCreateService;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AdvertCreateAndPhotoCreateServiceImpl implements AdvertCreateAndPhotoCreateService {
@@ -31,14 +33,17 @@ public class AdvertCreateAndPhotoCreateServiceImpl implements AdvertCreateAndPho
 
             final Set<ConstraintViolation<AdvertCreateRequest>> violations = validator.validate(advertCreateRequest);
             if (!violations.isEmpty()) {
-                return ResponseEntity.badRequest().body("Invalid advert JSON: " + violations.iterator().next().getMessage());
+                throw new IllegalArgumentException("Invalid JSON: " + violations.iterator().next().getMessage());
             }
 
             advertCreateRequest.setPhotos(photos);
             advertCreateService.createAdvert(advertCreateRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body("Advert create successful");
         }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            log.error("❌ İlan oluşturulurken hata oluştu:", e);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Sunucu hatası: İlan oluşturulamadı.");
         }
 
 

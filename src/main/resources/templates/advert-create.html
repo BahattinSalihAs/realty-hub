@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Advert Create</title>
+</head>
+<body>
+
+<h2>İlan Oluştur</h2><br>
+
+<form id="advertForm">
+    <input type="text" id="title" th:placeholder="'İlan Başlığı'" required /><br>
+    <input type="number" id="advertPrice" th:placeholder="'İlan Fiyatı'" required /><br>
+    <label for="advertCurrencyCode">Para Birimi:</label>
+    <select name="advertCurrencyCode" id="advertCurrencyCode">
+        <option th:each="code : ${currencyOptions}"
+                th:value="${code}"
+                th:text="${code}">TRY</option>
+        Para Birimi
+    </select><br>
+    <input type="text" id="city" name="city" th:placeholder="'İl'" required />
+    <input type="text" id="district" name="district" th:placeholder="'İlçe'" required />
+    <input type="text" id="neighborhood" name="neighborhood" th:placeholder="'Mahalle'" required /><br>
+
+    <input type="number" id="grossArea" placeholder="m2(brüt)"><br>
+    <input type="number" id="netArea" placeholder="m2(net)"><br>
+    <label for="roomType">Oda Sayısı:</label>
+    <select name="roomType" id="roomType">
+        <option th:each="type : ${roomTypeOptions}"
+                th:value="${type.label}"
+                th:text="${type.label}">1+1</option>
+        Oda Sayısı
+    </select><br>
+
+    <input type="number" id="buildAge" th:placeholder="'Bina Yaşı'" required /><br>
+    <input type="number" id="floorNumber" th:placeholder="'Kaçıncı Kat?'" required /><br>
+    <input type="number" id="totalFloors" th:placeholder="'Kaç katlı?'" required /><br>
+    <label for="heatType">Isınma Tipi:</label>
+    <select name="heatType" id="heatType">
+        <option th:each="type : ${heatTypeOptions}"
+                th:value="${type.label}"
+                th:text="${type.label}"></option>
+        Isınma Tipi
+    </select><br>
+    <input type="number" id="totalBathNumber" th:placeholder="'Kaç Banyolu?'" required /><br>
+
+    <label for="isBalcony">Balkonlu mu?</label>
+    <input type="checkbox" id="isBalcony" name="isBalcony"><br>
+
+    <label for="isWithFurniture">Eşyalı mı?</label>
+    <input type="checkbox" id="isWithFurniture" name="isWithFurniture"><br>
+
+    <label for="useCase">Kullanım Durumu:</label>
+    <select name="useCase" id="useCase">
+        <option th:each="type : ${useCaseOptions}"
+                th:value="${type.label}"
+                th:text="${type.label}">Ev Sahibi</option>
+        Kullanım Durumu
+    </select><br>
+
+    <label for="isSideInside">Site içerisinde mi?</label>
+    <input type="checkbox" id="isSideInside" name="isSideInside"><br>
+
+    <input type="text" id="advertDescription" th:placeholder="'İlan Açıklaması'" required /><br>
+
+    <label>İlan Özellikleri:</label>
+    <div th:each="feature : ${featureOptions}">
+        <input type="checkbox"
+               th:value="${feature.name()}"
+               name="features"
+               th:id="${feature.name()}" />
+        <label th:for="${feature.name()}"
+               th:text="${feature.category + ' - ' + feature.name}"></label>
+        <br/>
+    </div>
+
+    <label for="photos">Fotoğraflar:</label>
+    <input type="file" name="photos" id="photos" multiple /><br>
+
+    <button type="submit">Kaydet</button>
+
+</form>
+
+<script th:src="@{/assets/js/advert-create.js}"></script>
+
+</body>
+</html>

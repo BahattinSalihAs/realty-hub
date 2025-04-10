@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advert Listing</title>
+</head>
+<body>
+
+<h2>İlan Listesi</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Fotoğraf</th>
+        <th>Açıklama</th>
+        <th>Fiyat</th>
+        <th>Fiyat Türü</th>
+        <th>Adres</th>
+        <th>İlan Numarası</th>
+        <th>İlan Tarihi</th>
+        <th>Oda Sayısı</th>
+        <th>Brüt Alan</th>
+        <th>Net Alan</th>
+        <th>Bina Yaşı</th>
+        <th>Bulunduğu Kat</th>
+        <th>Kat Sayısı</th>
+        <th>Isınma</th>
+        <th>Banyo Sayısı</th>
+        <th>Balkon</th>
+        <th>Eşyalı</th>
+        <th>Kullanım Durumu</th>
+        <th>Site İçerisinde</th>
+        <th>İlan Açıklaması</th>
+        <th>İlan Özellikleri</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="advert : ${adverts}">
+        <td><img th:src="@{${advert.firstPhotoUrl}}" width="500"></td>
+        <td th:text="${advert.title}"></td>
+        <td th:text="${advert.advertPrice}"></td>
+        <td th:text="${advert.advertCurrencyCode}"></td>
+        <td th:text="${advert.addressEntity}"></td>
+        <td th:text="${advert.advertId}"></td>
+        <td th:text="${advert.advertDate}"></td>
+        <td th:text="${advert.roomType}"></td>
+        <td th:text="${advert.grossArea}"></td>
+        <td th:text="${advert.netArea}"></td>
+        <td th:text="${advert.buildAge}"></td>
+        <td th:text="${advert.floorNumber}"></td>
+        <td th:text="${advert.totalFloors}"></td>
+        <td th:text="${advert.heatType}"></td>
+        <td th:text="${advert.totalBathNumber}"></td>
+        <td th:text="${advert.isBalcony()}"></td>
+        <td th:text="${advert.isWithFurniture()}"></td>
+        <td th:text="${advert.useCase}"></td>
+        <td th:text="${advert.isSideInSide()}"></td>
+        <td th:text="${advert.advertDescription}"></td>
+        <td th:text="${advert.features}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<hr>
+
+<a th:href="@{/api/realty-management/admin/v1/login-success}">Back To Home Page</a>
+
+</body>
+</html>

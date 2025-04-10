@@ -119,7 +119,6 @@ public class AdvertCreateServiceImplTest {
         Mockito.when(userRepository.findByEmail(userEntity.getEmail())).thenReturn(Optional.of(userEntity));
 
         AdvertCreateRequest advertCreateRequest = AdvertCreateRequest.builder()
-                .email(userEntity.getEmail())
                 .advertDescription("Test advert description")
                 .advertPrice(BigDecimal.valueOf(25000))
                 .advertCurrencyCode(CurrencyCode.TRY)

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATEŞALP GAYRİMENKUL</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<form class="filter-container" id="listingResult" action="/kategori/emlak" method="post">
+    <div class="button-box">
+        <div id="btn"></div>
+        <button type="button" class="toggle-btn" onclick="satilikClick()">SATILIK</button>
+        <button type="button" class="toggle-btn" onclick="kiralikClick()">KİRALIK</button>
+    </div>
+    <hr><br>
+    <!-- Checkbox Seçenekleri (Satılık) -->
+    <div class="checkbox-container" id="checkboxGroupSatilik">
+        <label><input type="checkbox" class="property" value="daire"><br>Daire</label>
+        <label><input type="checkbox" class="property" value="villa"><br>Villa</label>
+        <label><input type="checkbox" class="property" value="isyeri"><br>İşyeri</label>
+        <label><input type="checkbox" class= value="arsa"><br>Arsa</label>
+    </div>
+    <div class="checkbox-container" id="checkboxGroupKiralik">
+        <label><input type="checkbox" class="property" value="daire"><br>Daire</label>
+        <label><input type="checkbox" class="property" value="villa"><br>Villa</label>
+        <label><input type="checkbox" class="property" value="isyeri"><br>İşyeri</label>
+    </div><br>
+    <hr>
+    <h1><img src="konumm.png" alt="ikon" style="width: 35px; height: 35px; margin-right: 5px; transform: translateY(5px);">Adres</h1>
+    <div id="iller-container">
+        <label for="il"></label>
+        <select class="select2" name="il" id="il" onchange="loadIlceler()">
+            <option value="il secin">İl Seçin</option>
+            <option value="adana">Adana</option>
+            <option value="adıyaman">Adıyaman</option>
+            <option value="afyonkarahisar">Afyonkarahisar</option>
+            <option value="ağrı">Ağrı</option>
+            <option value="aksaray">Aksaray</option>
+            <option value="amasya">Amasya</option>
+            <option value="ankara">Ankara</option>
+            <option value="antalya">Antalya</option>
+            <option value="ardahan">Ardahan</option>
+            <option value="artvin">Artvin</option>
+            <option value="aydın">Aydın</option>
+            <option value="balıkesir">Balıkesir</option>
+            <option value="bartın">Bartın</option>
+            <option value="batman">Batman</option>
+            <option value="bayburt">Bayburt</option>
+            <option value="bilecik">Bilecik</option>
+            <option value="bingöl">Bingöl</option>
+            <option value="bitlis">Bitlis</option>
+            <option value="bolu">Bolu</option>
+            <option value="burdur">Burdur</option>
+            <option value="bursa">Bursa</option>
+            <option value="çanakkale">Çanakkale</option>
+            <option value="çankırı">Çankırı</option>
+            <option value="çorum">Çorum</option>
+            <option value="denizli">Denizli</option>
+            <option value="diyarbakır">Diyarbakır</option>
+            <option value="düzce">Düzce</option>
+            <option value="edirne">Edirne</option>
+            <option value="elazığ">Elazığ</option>
+            <option value="erzincan">Erzincan</option>
+            <option value="erzurum">Erzurum</option>
+            <option value="eskişehir">Eskişehir</option>
+            <option value="gaziantep">Gaziantep</option>
+            <option value="giresun">Giresun</option>
+            <option value="gümüşhane">Gümüşhane</option>
+            <option value="hakkari">Hakkari</option>
+            <option value="hatay">Hatay</option>
+            <option value="ığdır">Iğrdır</option>
+            <option value="ısparta">Isparta</option>
+            <option value="istanbul">İstanbul</option>
+            <option value="izmir">İzmir</option>
+            <option value="kahramanmaraş">Kahramanmaraş</option>
+            <option value="karabük">Karabük</option>
+            <option value="karaman">Karaman</option>
+            <option value="kars">Kars</option>
+            <option value="kastamonu">Kastamonu</option>
+            <option value="kayseri">Kayseri</option>
+            <option value="kırıkkale">Kırıkkale</option>
+            <option value="kırklareli">Kırklareli</option>
+            <option value="kırşehir">Kırşehir</option>
+            <option value="kilis">Kilis</option>
+            <option value="kocaeli">Kocaeli</option>
+            <option value="konya">Konya</option>
+            <option value="kütahya">Kütahya</option>
+            <option value="malatya">Malatya</option>
+            <option value="manisa">Manisa</option>
+            <option value="mardin">Mardin</option>
+            <option value="mersin">Mersin</option>
+            <option value="muğla">Muğla</option>
+            <option value="muş">Muş</option>
+            <option value="nevşehir">Nevşehir</option>
+            <option value="niğde">Niğde</option>
+            <option value="ordu">Ordu</option>
+            <option value="osmaniye">Osmaniye</option>
+            <option value="rize">Rize</option>
+            <option value="sakarya">Sakarya</option>
+            <option value="samsun">Samsun</option>
+            <option value="siirt">Siirt</option>
+            <option value="sinop">Sinop</option>
+            <option value="sivas">Sivas</option>
+            <option value="şanlıurfa">Şanlıurfa</option>
+            <option value="şırnak">Şırnak</option>
+            <option value="tekirdağ">Tekirdağ</option>
+            <option value="tokat">Tokat</option>
+            <option value="trabzon">Trabzon</option>
+            <option value="tunceli">Tunceli</option>
+            <option value="uşak">Uşak</option>
+            <option value="van">Van</option>
+            <option value="yalova">Yalova</option>
+            <option value="yozgat">Yozgat</option>
+            <option value="zonguldak">Zonguldak</option>
+        </select><br>
+    </div>
+    <div id="ilceler-container" onchange="loadMahalleler()">
+        <label for="ilce"></label>
+        <select name="ilce" id="ilce" disabled>
+            <option value="" disabled selected>İlçe Seçin</option>
+        </select>
+    </div>
+    <div id="mahalleler-container">
+        <label for="mahalle"></label>
+        <select name="mahalle" id="mahalle" disabled>
+            <option value="" disabled selected>Semt/Mahalle Seçin</option>
+        </select>
+    </div><br>
+
+    <hr>
+    <h1><img src="tl.png" alt="ikon" style="width: 35px; height: 35px; margin-right: 5px;transform: translateY(5px);">Fiyat</h1>
+    <div id="fiyat-container">
+        <label for="least-money"></label>
+        <input type="text" id="least-money" placeholder="En az                                                 TL"
+               oninput="formatCurrency(this);"><br>
+        <label for="most-money"></label>
+        <input type="text" id="most-money"  placeholder="En çok                                               TL"
+               oninput="formatCurrency(this);"><br><br>
+    </div>
+
+    <hr>
+    <h1><img src="küp.png" alt="ikon" style="width: 60px; height: 35px; margin-right: 5px;transform: translateY(5px);">m²(Brüt)</h1>
+    <div id="m2-container">
+        <label for="min-m2"></label>
+        <input type="text" id="min-m2" placeholder="Minimum                                            m²"
+        oninput="formatCurrency(this);"><br>
+        <label for="max-m2"></label>
+        <input type="text" id="max-m2" placeholder="Maximum                                           m²"
+               oninput="formatCurrency(this);"><br><br>
+    </div>
+
+    <hr>
+    <h1><img src="takvim.png" alt="ikon" style="width: 35px; height: 35px; margin-right: 5px; transform: translateY(5px)"> İlan Tarihi</h1>
+    <div class="toggle-date">
+        <input class="toggle-date-checkbox" type="checkbox" id="date-toggle" name="date-toggle"/>
+        <label for="date-toggle" class="toggle-date-container">
+            <div class="toggle-date-button"></div>
+        </label>
+        <span class="toggle-date-text">&nbsp;&nbsp;Son 24 saat</span>
+    </div>
+    <div class="toggle-date">
+        <input class="toggle-date-checkbox" type="checkbox" id="date-toggle2" name="date-toggle"/>
+        <label for="date-toggle2" class="toggle-date-container">
+            <div class="toggle-date-button"></div>
+        </label>
+        <span class="toggle-date-text">&nbsp;&nbsp;Son 3 gün içinde</span>
+    </div>
+    <div class="toggle-date">
+        <input class="toggle-date-checkbox" type="checkbox" id="date-toggle3" name="date-toggle"/>
+        <label for="date-toggle3" class="toggle-date-container">
+            <div class="toggle-date-button"></div>
+        </label>
+        <span class="toggle-date-text">&nbsp;&nbsp;Son 7 gün içinde</span>
+    </div>
+    <div class="toggle-date">
+        <input class="toggle-date-checkbox" type="checkbox" id="date-toggle4" name="date-toggle"/>
+        <label for="date-toggle4" class="toggle-date-container">
+            <div class="toggle-date-button"></div>
+        </label>
+        <span class="toggle-date-text">&nbsp;&nbsp;Son 15 gün içinde</span>
+    </div>
+    <div class="toggle-date">
+        <input class="toggle-date-checkbox" type="checkbox" id="date-toggle5" name="date-toggle"/>
+        <label for="date-toggle5" class="toggle-date-container">
+            <div class="toggle-date-button"></div>
+        </label>
+        <span class="toggle-date-text">&nbsp;&nbsp;Son 30 gün içinde</span>
+    </div>
+
+    <hr>
+
+    <button type="submit" class="search-button" onclick="validateAmount();validateArea()" style="vertical-align: middle"><span>Ara</span></button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script src="assets/js/index.js"></script>
+</body>
+</html>

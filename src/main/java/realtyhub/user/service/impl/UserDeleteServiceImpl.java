@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import realtyhub.user.model.dto.request.UserDeleteRequest;
 import realtyhub.user.model.entity.FavoriteEntity;
 import realtyhub.user.model.entity.UserEntity;
+import realtyhub.user.model.entity.UserRole;
 import realtyhub.user.repository.FavoriteRepository;
 import realtyhub.user.repository.UserRepository;
 import realtyhub.user.service.UserDeleteService;
@@ -30,9 +31,12 @@ class UserDeleteServiceImpl implements UserDeleteService {
             throw new RuntimeException("Password does not match");
         }
 
-        final FavoriteEntity fav = favoriteRepository.findByUserEntity(userEntityFromDB)
-                .orElseThrow(() -> new RuntimeException("User favorite not found"));
-        favoriteRepository.delete(fav);
+        if (userEntityFromDB.getUserRole() == UserRole.CUSTOMER) {
+            final FavoriteEntity fav = favoriteRepository.findByUserEntity(userEntityFromDB)
+                    .orElseThrow(() -> new RuntimeException("User favorite not found"));
+            favoriteRepository.delete(fav);
+
+        }
         userRepository.delete(userEntityFromDB);
     }
 }

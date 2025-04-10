@@ -2,8 +2,13 @@ package realtyhub.advert.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import realtyhub.advert.model.dto.request.advert.*;
 import realtyhub.advert.model.entity.AdvertEntity;
+import realtyhub.advert.model.entity.enums.*;
+import realtyhub.advert.repository.AdvertRepository;
 import realtyhub.advert.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/realty-management/advert")
 public class AdvertController {
@@ -22,14 +27,29 @@ public class AdvertController {
     private final AdvertDeactivationService advertDeactivationService;
     private final AdvertFilterService advertFilterService;
     private final AdvertCreateAndPhotoCreateService advertCreateAndPhotoCreateService;
+    private final AdvertRepository advertRepository;
+
+    @GetMapping("/v1/adverts")
+    final public String showAdvertForm(
+            final Model model
+    ){
+        model.addAttribute("currencyOptions", CurrencyCode.values());
+        model.addAttribute("roomTypeOptions", RoomType.values());
+        model.addAttribute("heatTypeOptions", HeatType.values());
+        model.addAttribute("useCaseOptions", UseCase.values());
+        model.addAttribute("featureOptions", FeatureType.values());
+
+        return "advert-create";
+    }
 
     @PostMapping(value = "/v1/adverts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     final public ResponseEntity<String> createAdvert(
             @RequestPart(value = "advert") final String advertJson,
             @RequestPart(value = "photos", required = false) final List<MultipartFile> photos
     ) {
+        advertCreateAndPhotoCreateService.createAdvertAndPhoto(advertJson, photos);
 
-        return advertCreateAndPhotoCreateService.createAdvertAndPhoto(advertJson, photos);
+        return ResponseEntity.ok().body("Advert created");
     }
 
     @PatchMapping("/v1/adverts/update")
@@ -41,13 +61,26 @@ public class AdvertController {
         return ResponseEntity.status(HttpStatus.OK).body("Advert update successful");
     }
 
-    @DeleteMapping("/v1/adverts")
-    final public ResponseEntity<String> deleteAdvert(
-            @Valid @RequestBody final AdvertDeleteRequest advertDeleteRequest
+    @GetMapping("/v1/adverts-delete")
+    final public String showAdvertDeleteForm(
+            final Model model
     ){
+        model.addAttribute("advertDeleteForm", new AdvertDeleteRequest());
+        return "advert-delete";
+    }
+
+    @PostMapping("/v1/adverts-delete")
+    final public String deleteAdvert(
+            @Valid @ModelAttribute("advertDeleteForm") final AdvertDeleteRequest advertDeleteRequest,
+            final BindingResult bindingResult,
+            final Model model
+    ){
+        if (bindingResult.hasErrors()) {
+            return "advert-delete";
+        }
         advertDeleteService.deleteAdvert(advertDeleteRequest);
 
-        return ResponseEntity.status(HttpStatus.OK).body("Advert delete successful");
+        return "systems";
     }
 
     @PatchMapping("/v1/adverts/activate")
@@ -74,6 +107,16 @@ public class AdvertController {
     ){
 
         return ResponseEntity.ok(advertFilterService.searchAdverts(advertFilterRequest));
+    }
+
+    @GetMapping("/v1/advert-list")
+    final public String showAdverts(
+            final Model model
+    ){
+        List<AdvertEntity> adverts = advertRepository.findAll();
+        model.addAttribute("adverts", adverts);
+
+        return "advert-list";
     }
 
 

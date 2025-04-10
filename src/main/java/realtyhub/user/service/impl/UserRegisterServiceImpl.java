@@ -43,17 +43,11 @@ class UserRegisterServiceImpl implements UserRegisterService {
             if (realtorsCount >= MAX_REALTOR_COUNT){
                 throw new RuntimeException("Realtors count exceeds max allowed");
             }
-            if (!userRegisterRequest.getCodeAdmin().equals(UserEmailVerificationServiceImpl.adminCode)){
-                throw new RuntimeException("Admin code does not match");
-            }
         }
         if (userRole == UserRole.ADMIN){
             long adminsCount = userRepository.countUserEntityByUserRole(UserRole.ADMIN);
             if (adminsCount >= MAX_ADMIN_COUNT){
                 throw new RuntimeException("Admins count exceeds max allowed");
-            }
-            if (!userRegisterRequest.getVerifyCode().equals(UserEmailVerificationServiceImpl.verifyCode)){
-                throw new RuntimeException("Verify code does not match");
             }
         }
 
@@ -82,7 +76,8 @@ class UserRegisterServiceImpl implements UserRegisterService {
         userRepository.save(userEntityToBeRegistered);
         verificationRepository.delete(verificationCode);
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userRegisterRequest.getEmail(), userRegisterRequest.getPassword()));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userRegisterRequest.getEmail(),
+                userRegisterRequest.getPassword()));
         final String token = jwtService.generateToken(userEntityToBeRegistered);
 
         return UserResponse.builder().token(token).build();

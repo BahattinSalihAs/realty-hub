@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login Successed</title>
+</head>
+<body>
+
+<h1>Giriş Başarılı</h1>
+<span th:text="${message}"></span>
+
+<p>
+    User: <span sec:authentication="principal.username"></span>
+    <br><br>
+    Role(s): <span sec:authentication="principal.authorities"></span>
+</p>
+
+
+<div sec:authorize="hasRole('ADMIN')">
+    <hr>
+    <p>
+        <a th:href="@{/api/realty-management/admin/leaders}">Admın Panel</a>
+        (Only for Admin peeps)
+    </p>
+
+</div>
+
+<div sec:authorize="hasAnyRole('REALTOR','ADMIN')">
+    <hr>
+    <p>
+        <a th:href="@{/api/realty-management/realtor/systems}">Realtor Panel</a>
+        (Only for Realtor peeps)
+    </p>
+
+</div>
+
+
+<hr>
+<!-- Add a logout button -->
+<form action="#" th:action="@{/logout}" method="POST">
+    <input type="submit" th:value="Logout">
+
+</form>
+
+</body>
+</html>
