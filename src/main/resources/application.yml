@@ -9,19 +9,19 @@ spring:
     open-in-view: true
     show-sql: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/realty-management
-    username: realty
-    password: realty
+    url: DB_URL
+    username: DB_USERNAME
+    password: DB_PASSWORD
     driver-class-name: org.postgresql.Driver
   security:
     user:
-      name: admin
-      password: 123456
+      name: SECURITY_USERNAME
+      password: SECURITY_PASSWORD
   mail:
-    username: asbahattinsalih7@gmail.com
+    username: MAIL_USERNAME
     port: 587
     host: smtp.gmail.com
-    password: xlqthlihygmwijzz
+    password: MAIL_PASSWORD
     properties:
       mail:
         smtp:
