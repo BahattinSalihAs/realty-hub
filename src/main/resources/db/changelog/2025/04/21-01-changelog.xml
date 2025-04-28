@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1745249796776-1" author="BSA">
+        <createSequence incrementBy="1" sequenceName="address_entity_id_seq" startValue="1"/>
+    </changeSet>
+    <changeSet id="1745249796776-2" author="BSA">
+        <createSequence incrementBy="1" sequenceName="adverts_id_seq" startValue="1"/>
+    </changeSet>
+    <changeSet id="1745249796776-3" author="BSA">
+        <createSequence incrementBy="1" sequenceName="favorites_id_seq" startValue="1"/>
+    </changeSet>
+    <changeSet id="1745249796776-4" author="BSA">
+        <createSequence incrementBy="50" sequenceName="photo_entity_seq" startValue="1"/>
+    </changeSet>
+    <changeSet id="1745249796776-5" author="BSA">
+        <createSequence incrementBy="1" sequenceName="users_id_seq" startValue="1"/>
+    </changeSet>
+    <changeSet id="1745249796776-6" author="BSA">
+        <createSequence incrementBy="1" sequenceName="verification_code_id_seq" startValue="1"/>
+    </changeSet>
+    <changeSet id="1745249796776-7" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="address_entity"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="address_entity">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="address_entity_pkey"/>
+            </column>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="district" type="VARCHAR(255)"/>
+            <column name="neighborhood" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1745249796776-8" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="advert_entity_features"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="advert_entity_features">
+            <column name="advert_entity_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="features" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1745249796776-9" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="adverts"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="adverts">
+            <column name="advert_date" type="date"/>
+            <column name="bath_number" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="build_age" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="floor_number" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gross_area" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_balcony" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_side_inside" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_with_furniture" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="net_area" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="NUMBER(38, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_floors" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_entity_id" type="BIGINT"/>
+            <column name="advert_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="adverts_pkey"/>
+            </column>
+            <column name="realtor_id" type="BIGINT"/>
+            <column name="title" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="advert_description" type="VARCHAR(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="heat_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="room_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="use_case" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1745249796776-10" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="favorite_adverts"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="favorite_adverts">
+            <column name="advert_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="favorite_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1745249796776-11" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="favorites"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="favorites">
+            <column name="customer_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="favorited_at" type="timestamp"/>
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="favorites_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1745249796776-12" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="photo_entity"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="photo_entity">
+            <column name="advert_entity" type="BIGINT"/>
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="photo_entity_pkey"/>
+            </column>
+            <column name="file_path" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1745249796776-13" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="users">
+            <column name="age" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password_change_day" type="date"/>
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="users_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="confirm_code" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="otp_code" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_role" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1745249796776-14" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="verification_code"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="verification_code">
+            <column name="version" type="INT"/>
+            <column name="expiry_date" type="timestamp"/>
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="verification_code_pkey"/>
+            </column>
+            <column name="code" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1745249796776-15" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <uniqueConstraintExists tableName="adverts"/>
+            </not>
+        </preConditions>
+
+        <addUniqueConstraint columnNames="address_entity_id" constraintName="adverts_address_entity_id_key"
+                             tableName="adverts"/>
+    </changeSet>
+    <changeSet id="1745249796776-16" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <uniqueConstraintExists tableName="adverts"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="advert_id" constraintName="adverts_advert_id_key" tableName="adverts"/>
+    </changeSet>
+    <changeSet id="1745249796776-17" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk1ngpnq18vk3cf8fo0ui2un42j"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="advert_entity" baseTableName="photo_entity"
+                                 constraintName="fk1ngpnq18vk3cf8fo0ui2un42j" onDelete="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="adverts"/>
+    </changeSet>
+    <changeSet id="1745249796776-18" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk3h1t98iukkv3drk3okuc6v2e8"/>
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint baseColumnNames="advert_id" baseTableName="favorite_adverts"
+                                 constraintName="fk3h1t98iukkv3drk3okuc6v2e8" onDelete="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="adverts"/>
+    </changeSet>
+    <changeSet id="1745249796776-19" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk56bvektuw7xi7dgfqyd9kcdh2"/>
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint baseColumnNames="customer_id" baseTableName="favorites"
+                                 constraintName="fk56bvektuw7xi7dgfqyd9kcdh2" onDelete="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet id="1745249796776-20" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fkd59e7jriwvew7bbqd51oaxf3s"/>
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint baseColumnNames="advert_entity_id" baseTableName="advert_entity_features"
+                                 constraintName="fkd59e7jriwvew7bbqd51oaxf3s" onDelete="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="adverts"/>
+    </changeSet>
+    <changeSet id="1745249796776-21" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fkdamw61me39xsj4x014xlkktil"/>
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint baseColumnNames="realtor_id" baseTableName="adverts"
+                                 constraintName="fkdamw61me39xsj4x014xlkktil" onDelete="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet id="1745249796776-22" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fkfw7lq6ailjf92xvwxjpmwcnwa"/>
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint baseColumnNames="address_entity_id" baseTableName="adverts"
+                                 constraintName="fkfw7lq6ailjf92xvwxjpmwcnwa" onDelete="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="address_entity"/>
+    </changeSet>
+    <changeSet id="1745249796776-23" author="BSA">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fknfssbenuilhj3rkrysu7pqxs6"/>
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint baseColumnNames="favorite_id" baseTableName="favorite_adverts"
+                                 constraintName="fknfssbenuilhj3rkrysu7pqxs6" onDelete="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="favorites"/>
+    </changeSet>
+
+</databaseChangeLog>

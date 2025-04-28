@@ -1,27 +1,29 @@
 server:
   port: 8082
+  servlet:
+    context-path: /api/realty-management
 
 
 spring:
-  main:
-    allow-bean-definition-overriding: true
-    allow-circular-references: true
   jpa:
-    hibernate:
-      ddl-auto: update
-    open-in-view: true
     show-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5432/realty-management
     username: realty
     password: realty
     driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    enabled: true
+
   security:
     user:
       name: admin
       password: 123456
     jwt:
       secret: "salihsalihsalisahlikdsalihsalihsalihsailhsalihsalihsalihsalihsalihsalih"
+
   mail:
     username: asbahattinsalih7@gmail.com
     port: 587
@@ -33,6 +35,7 @@ spring:
           auth: true
           starttls:
             enable: true
+
   servlet:
     multipart:
       max-file-size: 10MB

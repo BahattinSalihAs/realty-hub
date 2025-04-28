@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import realtyhub.advert.model.entity.AdvertEntity;
 import realtyhub.advert.repository.AdvertRepository;
+import realtyhub.common.error.UserNotFoundException;
 import realtyhub.user.model.dto.request.FavoriteGetRequest;
 import realtyhub.user.model.dto.request.FavoriteRequest;
 import realtyhub.user.model.entity.FavoriteEntity;
@@ -28,7 +29,7 @@ public class FavoriteServiceImpl implements FavoriteService {
             final FavoriteRequest favoriteRequest
             ) {
         UserEntity userEntityFromDB = userRepository.findByEmail(favoriteRequest.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (!userEntityFromDB.getUserRole().equals(UserRole.CUSTOMER)) {
             throw new RuntimeException("User is not a customer");

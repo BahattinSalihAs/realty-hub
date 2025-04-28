@@ -20,10 +20,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (!response.ok) {
                     throw new Error("Sunucu hatası");
                 }
+                console.log("response ok deyiz")
                 return response.text();
             })
             .then(data => {
                 alert("👌 " + data);
+                console.log("hadi yönlendir")
+                window.location.href = "/api/realty-management/admin/v1/admins";
             })
             .catch(err => {
                 alert("❌ Hata: " + err.message);

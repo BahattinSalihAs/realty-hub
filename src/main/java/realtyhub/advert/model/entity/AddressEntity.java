@@ -21,4 +21,7 @@ public final class AddressEntity implements Serializable {
     private String city;
     private String district;
     private String neighborhood;
+
+    @OneToOne(mappedBy = "addressEntity")
+    private AdvertEntity advertEntity;
 }

@@ -15,7 +15,7 @@ import realtyhub.user.service.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/realty-management/customer")
+@RequestMapping("/customer")
 @RequiredArgsConstructor
 public final class CustomerController {
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login Successed</title>
+    <title>Login Successed</title>
 </head>
 <body>
 
@@ -21,7 +21,7 @@
 <div sec:authorize="hasRole('ADMIN')">
     <hr>
     <p>
-        <a th:href="@{/api/realty-management/admin/leaders}">Admın Panel</a>
+        <a th:href="@{/admin/leaders}">Admın Panel</a>
         (Only for Admin peeps)
     </p>
 
@@ -30,7 +30,7 @@
 <div sec:authorize="hasAnyRole('REALTOR','ADMIN')">
     <hr>
     <p>
-        <a th:href="@{/api/realty-management/realtor/systems}">Realtor Panel</a>
+        <a th:href="@{/realtor/systems}">Realtor Panel</a>
         (Only for Realtor peeps)
     </p>
 

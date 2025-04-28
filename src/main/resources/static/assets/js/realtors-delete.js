@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
-        fetch("/api/realty-management/realtor/v1/realtors/delete", {
+        fetch("/realtor/v1/realtors/delete", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"

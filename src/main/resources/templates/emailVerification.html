@@ -8,13 +8,12 @@
 <body>
 <h2>Admin Mail Onaylama</h2>
 
-<form id="emailForm" th:action="@{/api/realty-management/admin/v1/admins-verification}" th:object="${emailVerification}" th:method="post">
+<form id="emailForm" th:action="@{/admin/v1/admins-verification}" th:object="${emailVerification}" th:method="POST">
     <label for="email">E-posta Adresinizi Giriniz:</label>
     <input type="email" id="email" name="email" th:field="*{email}" required />
     <button type="submit">Gönder</button>
 </form>
 
 
-<script th:src="@{/assets/js/email.js}"></script>
 </body>
 </html>

@@ -36,7 +36,7 @@
     </thead>
     <tbody>
     <tr th:each="advert : ${adverts}">
-        <td><img th:src="@{${advert.firstPhotoUrl}}" width="500"></td>
+        <td><img th:src="@{${advert.firstPhotoUrl}}" width="250"></td>
         <td th:text="${advert.title}"></td>
         <td th:text="${advert.advertPrice}"></td>
         <td th:text="${advert.advertCurrencyCode}"></td>
@@ -63,7 +63,7 @@
 
 <hr>
 
-<a th:href="@{/api/realty-management/admin/v1/login-success}">Back To Home Page</a>
+<a th:href="@{/admin/v1/login-success}">Back To Home Page</a>
 
 </body>
 </html>
