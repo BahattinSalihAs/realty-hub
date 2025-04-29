@@ -2,6 +2,7 @@ package realtyhub.user.service.impl;
 
 import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
+import realtyhub.common.error.UserNotFoundException;
 import realtyhub.common.util.CodeSenderUtil;
 import realtyhub.common.util.EmailSenderUtil;
 import realtyhub.user.model.dto.request.UserForgotPasswordRequest;
@@ -27,7 +28,7 @@ class UserForgotPasswordServiceImpl implements UserForgotPasswordService {
             final UserForgotPasswordRequest userForgotPasswordRequest
     ) {
         UserEntity userEntityFromDB = userRepository.findByEmail(userForgotPasswordRequest.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         try {
             final String code = String.valueOf(CodeSenderUtil.sendCode());

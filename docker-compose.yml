@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: realty-postgres
+    environment:
+      POSTGRES_DB: realty-management
+      POSTGRES_USER: realty
+      POSTGRES_PASSWORD: realty
+    ports:
+      - "5432:5432"
+    networks:
+      - realty-network
+
+  app:
+    build: .
+    container_name: realtyhub-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://realty-postgres:5432/realty-management
+      SPRING_DATASOURCE_USERNAME: realty
+      SPRING_DATASOURCE_PASSWORD: realty
+    depends_on:
+      - postgres
+    ports:
+      - "8082:8082"
+    networks:
+      - realty-network
+    restart: unless-stopped
+    volumes:
+      - ./src/main/resources/application.yml:/app/src/main/resources/application.yml
+networks:
+  realty-network:
+    driver: bridge

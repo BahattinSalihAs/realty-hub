@@ -12,8 +12,6 @@ import realtyhub.advert.service.AdvertNumberGenerateService;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class AdvertActivationServiceImplTest {
 

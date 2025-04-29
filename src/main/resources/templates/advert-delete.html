@@ -6,7 +6,7 @@
     <title>Advert Delete Page</title>
 </head>
 <body>
-<form id="advertDeleteForm" th:action="@{/api/realty-management/advert/v1/adverts-delete}" th:object="${advertDeleteForm}" th:method="post">
+<form id="advertDeleteForm" th:action="@{/advert/v1/adverts-delete}" th:object="${advertDeleteForm}" th:method="post">
     <label for="advertId">İlan Numarasını Giriniz:</label>
     <input type="number" id="advertId" name="advertId" th:field="*{advertId}" required />
     <button type="submit">Sil</button>

@@ -1,23 +1,15 @@
 package realtyhub.advert.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.Validator;
-import lombok.Getter;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 import realtyhub.advert.model.dto.request.address.AddressCreateRequest;
 import realtyhub.advert.model.dto.request.advert.AdvertCreateRequest;
@@ -28,12 +20,10 @@ import realtyhub.advert.model.entity.photos.PhotoEntity;
 import realtyhub.advert.repository.AddressRepository;
 import realtyhub.advert.repository.AdvertRepository;
 import realtyhub.advert.repository.PhotoRepository;
-import realtyhub.advert.service.AdvertCreateService;
 import realtyhub.advert.service.AdvertNumberGenerateService;
 import realtyhub.user.model.entity.UserEntity;
 import realtyhub.user.model.entity.UserRole;
 import realtyhub.user.repository.UserRepository;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -42,17 +32,17 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 
-
-/*
-@RunWith(SpringRunner.class)
-@ExtendWith(MockitoExtension.class)
-
- */
 @SpringBootTest
 public class AdvertCreateServiceImplTest {
 
     @InjectMocks
     private AdvertCreateServiceImpl advertCreateServiceImpl;
+
+    @Mock
+    private SecurityContext securityContext;
+
+    @Mock
+    private Authentication authentication;
 
     @Mock
     private AdvertRepository advertRepository;
@@ -73,6 +63,15 @@ public class AdvertCreateServiceImplTest {
 
     @Test
     public void shouldAllowedAdvertCreationForRealtor(){
+
+        final String mockedEmail = "test@example.com";
+
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        Mockito.when(authentication.getName()).thenReturn(mockedEmail);
+
+        SecurityContextHolder.setContext(securityContext);
+
+        final String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
         List<MultipartFile> files;
         String filePaths = "uploads/9104d10c-b6af-4aa1-bd42-ed22b3f1d92d_Ekran görüntüsü 2023-04-01 152622.png";
@@ -108,7 +107,7 @@ public class AdvertCreateServiceImplTest {
         UserEntity userEntity = UserEntity.builder()
                 .userRole(UserRole.REALTOR)
                 .age(30)
-                .email("test@example.com")
+                .email(email)
                 .password("password")
                 .name("Ahmet")
                 .surname("Yılmaz")
@@ -197,6 +196,7 @@ public class AdvertCreateServiceImplTest {
         Assertions.assertEquals(advert.getPhotos(), photoEntities);
         Assertions.assertEquals(advert.getAddressEntity(), addressEntity);
         Assertions.assertEquals(advert, advertCreateRequest);
+        Assertions.assertEquals(mockedEmail, email);
         Assertions.assertTrue(advert.isActive());
 
         advertCreateServiceImpl.createAdvert(advertCreateRequest);

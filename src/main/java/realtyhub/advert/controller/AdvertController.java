@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/realty-management/advert")
+@RequestMapping("/advert")
 public class AdvertController {
     private final AdvertUpdateService advertUpdateService;
     private final AdvertDeleteService advertDeleteService;

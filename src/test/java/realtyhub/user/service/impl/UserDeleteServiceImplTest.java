@@ -10,9 +10,12 @@ import realtyhub.common.util.PasswordEncryptorUtil;
 import realtyhub.user.model.dto.request.UserDeleteRequest;
 import realtyhub.user.model.entity.FavoriteEntity;
 import realtyhub.user.model.entity.UserEntity;
+import realtyhub.user.model.entity.UserRole;
 import realtyhub.user.repository.FavoriteRepository;
 import realtyhub.user.repository.UserRepository;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,6 +52,7 @@ class UserDeleteServiceImplTest {
         final UserEntity userEntity = UserEntity.builder()
                 .email(userDeleteRequest.getEmail())
                 .password(encryptedPassword)
+                .userRole(UserRole.CUSTOMER)
                 .build();
 
         Mockito.when(userRepository.findByEmail(userDeleteRequest.getEmail())).thenReturn(Optional.of(userEntity));
@@ -57,6 +61,8 @@ class UserDeleteServiceImplTest {
         final FavoriteEntity fav = FavoriteEntity.builder()
                 .userEntity(userEntity)
                 .id(1234L)
+                .adverts(new ArrayList<>())
+                .favoritedAt(LocalDateTime.now())
                 .build();
         Mockito.when(favoriteRepository.findByUserEntity(userEntity)).thenReturn(Optional.of(fav));
         Mockito.doNothing().when(favoriteRepository).delete(fav);

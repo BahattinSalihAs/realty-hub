@@ -1,6 +1,7 @@
 package realtyhub.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import realtyhub.common.error.UserNotFoundException;
 import realtyhub.user.model.dto.request.UserUpdateRequest;
 import realtyhub.user.model.entity.UserEntity;
 import realtyhub.user.repository.UserRepository;
@@ -20,7 +21,7 @@ final class UserUpdateServiceImpl implements UserUpdateService {
             final UserUpdateRequest userUpdateRequest
     ) {
         UserEntity userEntityFromDB = userRepository.findByEmail(userUpdateRequest.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (userRepository.existsUserEntityByPhoneNumber(userUpdateRequest.getPhoneNumber())){
             throw new RuntimeException("User phone number already exists");

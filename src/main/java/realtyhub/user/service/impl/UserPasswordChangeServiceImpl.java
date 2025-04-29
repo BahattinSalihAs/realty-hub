@@ -1,6 +1,7 @@
 package realtyhub.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import realtyhub.common.error.UserNotFoundException;
 import realtyhub.user.model.dto.request.UserPasswordChangeRequest;
 import realtyhub.user.model.entity.UserEntity;
 import realtyhub.user.model.entity.VerificationCode;
@@ -27,7 +28,7 @@ public class UserPasswordChangeServiceImpl implements UserPasswordChangeService 
     ) {
 
         UserEntity userEntityFromDB = userRepository.findByEmail(userPasswordChangeRequest.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         VerificationCode verificationCode = verificationRepository.findByEmail(userEntityFromDB.getEmail())
                 .orElseThrow(() -> new RuntimeException("Code not found"));
 

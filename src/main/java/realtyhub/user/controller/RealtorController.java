@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.ModelAndView;
 import realtyhub.user.model.dto.UserResponse;
 import realtyhub.user.model.dto.request.*;
 import realtyhub.user.model.entity.UserRole;
@@ -14,10 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import realtyhub.user.service.*;
 
-import javax.print.attribute.standard.Media;
-
 @Controller
-@RequestMapping("/api/realty-management/realtor")
+@RequestMapping("/realtor")
 @RequiredArgsConstructor
 public final class RealtorController {
 
@@ -50,29 +49,27 @@ public final class RealtorController {
     }
 
     @GetMapping("/v1/realtors")
-    public String showRegisterPage(
-            final Model model
-    ) {
-        model.addAttribute("realtorsRegisterForm", new UserRegisterRequest());
+    public ModelAndView showRegisterPage() {
+        ModelAndView modelAndView = new ModelAndView("realtorsRegister");
+        modelAndView.addObject("realtorsRegisterForm", new UserRegisterRequest());
 
-        return "realtorsRegister";
+        return modelAndView;
     }
 
     @PostMapping("/v1/realtors")
-    public String registerRealtor(
+    public ModelAndView registerRealtor(
             @ModelAttribute("realtorsRegisterForm") @Valid final UserRegisterRequest userRegisterRequest,
-            final BindingResult result,
-            final Model model
+            final BindingResult result
     ) {
-
         if (result.hasErrors()){
-            return "realtorsRegister";
+            return new ModelAndView("realtorsRegister");
         }
         UserResponse ur = userRegisterService.registerUser(userRegisterRequest, UserRole.REALTOR);
-        model.addAttribute("message", "Hoşgeldin gayrimenkul danışmanı " + userRegisterRequest.getName() + " " + userRegisterRequest.getSurname());
 
+        ModelAndView modelAndView = new ModelAndView("realtorsRegister-successed");
+        modelAndView.addObject("message", "Hoşgeldin gayrimenkul danışmanı " + userRegisterRequest.getName() + " " + userRegisterRequest.getSurname());
 
-        return "realtorsRegister-successed";
+        return modelAndView;
     }
 
 
