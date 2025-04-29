@@ -5,9 +5,9 @@ services:
     image: postgres:13
     container_name: realty-postgres
     environment:
-      POSTGRES_DB: realty-management
-      POSTGRES_USER: realty
-      POSTGRES_PASSWORD: realty
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     networks:
@@ -18,8 +18,8 @@ services:
     container_name: realtyhub-app
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://realty-postgres:5432/realty-management
-      SPRING_DATASOURCE_USERNAME: realty
-      SPRING_DATASOURCE_PASSWORD: realty
+      SPRING_DATASOURCE_USERNAME: ${DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
     depends_on:
       - postgres
     ports:
