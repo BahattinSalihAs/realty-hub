@@ -76,7 +76,7 @@ public class AdvertCreateServiceImplTest {
         final String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
         List<MultipartFile> files;
-        String filePaths = "uploads/9104d10c-b6af-4aa1-bd42-ed22b3f1d92d_Ekran görüntüsü 2023-04-01 152622.png";
+        String filePaths = "src/main/resources/static/konumm.png";
         Path path = Paths.get(filePaths);
         try {
             byte[] content = Files.readAllBytes(path);

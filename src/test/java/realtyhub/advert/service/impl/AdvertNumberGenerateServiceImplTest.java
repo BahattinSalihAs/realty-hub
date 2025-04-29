@@ -1,6 +1,5 @@
 package realtyhub.advert.service.impl;
 
-import jakarta.inject.Inject;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,12 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import realtyhub.advert.repository.AdvertRepository;
-
 import java.util.Random;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class AdvertNumberGenerateServiceImplTest {
@@ -32,6 +27,7 @@ class AdvertNumberGenerateServiceImplTest {
         final Long oldAdvertNumber = 12345L;
         final Long newAdvertNumber = 6789L;
 
+        Mockito.when(random.nextInt(Mockito.anyInt())).thenReturn(234567);
         Mockito.when(advertRepository.existsByAdvertId(oldAdvertNumber)).thenReturn(true);
         Mockito.when(advertRepository.existsByAdvertId(newAdvertNumber)).thenReturn(false);
 
@@ -39,7 +35,7 @@ class AdvertNumberGenerateServiceImplTest {
 
         Assert.assertNotEquals(oldAdvertNumber, advertId);
 
-        Mockito.verify(advertRepository, Mockito.times(1)).existsByAdvertId(Mockito.anyLong());
+        Mockito.verify(advertRepository, Mockito.times(2)).existsByAdvertId(Mockito.anyLong());
 
     }
 }
