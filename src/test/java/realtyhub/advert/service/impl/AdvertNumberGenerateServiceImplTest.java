@@ -27,10 +27,10 @@ class AdvertNumberGenerateServiceImplTest {
         final Long oldAdvertNumber = 12345L;
         final Long newAdvertNumber = 6789L;
 
-        Mockito.when(random.nextInt(Mockito.anyInt())).thenReturn(234567);
+        Mockito.when(random.nextInt(Mockito.anyInt())).thenReturn(oldAdvertNumber.intValue()).thenReturn(newAdvertNumber.intValue());
         Mockito.when(advertRepository.existsByAdvertId(oldAdvertNumber)).thenReturn(true);
         Mockito.when(advertRepository.existsByAdvertId(newAdvertNumber)).thenReturn(false);
-
+        //Mockito.when(advertNumberGenerateServiceImpl.generateAdvertNumber()).thenReturn(newAdvertNumber);
         final Long advertId = advertNumberGenerateServiceImpl.generateAdvertNumber();
 
         Assert.assertNotEquals(oldAdvertNumber, advertId);

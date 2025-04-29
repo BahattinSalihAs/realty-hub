@@ -175,11 +175,6 @@ public class AdvertCreateServiceImplTest {
             final String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             Path filePath = Paths.get(uploadDir + fileName);
 
-            try {
-                Files.copy(file.getInputStream(), filePath);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
             PhotoEntity photoEntity = PhotoEntity.builder()
                     .advertEntity(advert)
                     .filePath(filePath.toString())
