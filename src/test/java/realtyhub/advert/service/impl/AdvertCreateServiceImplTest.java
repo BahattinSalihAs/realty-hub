@@ -7,7 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -168,7 +167,6 @@ public class AdvertCreateServiceImplTest {
                 .heatType(advertCreateRequest.getHeatType())
                 .build();
 
-        Mockito.when(advertRepository.save(advert)).thenReturn(advert);
 
         List<PhotoEntity> photoEntities = new ArrayList<>();
         for (MultipartFile file : advertCreateRequest.getPhotos()) {
@@ -198,7 +196,6 @@ public class AdvertCreateServiceImplTest {
 
         advertCreateServiceImpl.createAdvert(advertCreateRequest);
 
-        //Mockito.verify(userRepository).save(userEntity);
         Mockito.verify(userRepository).findByEmail(userEntity.getEmail());
         Mockito.verify(addressRepository).save(Mockito.any(AddressEntity.class));
         Mockito.verify(advertRepository, Mockito.times(2)).save(Mockito.any(AdvertEntity.class));
