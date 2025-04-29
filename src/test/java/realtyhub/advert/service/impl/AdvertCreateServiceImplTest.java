@@ -168,7 +168,7 @@ public class AdvertCreateServiceImplTest {
                 .heatType(advertCreateRequest.getHeatType())
                 .build();
 
-        Mockito.when(advertRepository.save(Mockito.any(AdvertEntity.class))).thenReturn(advert);
+        Mockito.when(advertRepository.save(advert)).thenReturn(advert);
 
         List<PhotoEntity> photoEntities = new ArrayList<>();
         for (MultipartFile file : advertCreateRequest.getPhotos()) {
