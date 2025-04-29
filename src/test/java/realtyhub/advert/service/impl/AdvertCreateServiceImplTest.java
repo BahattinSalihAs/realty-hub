@@ -180,6 +180,8 @@ public class AdvertCreateServiceImplTest {
             photoEntities.add(photoEntity);
         }
 
+        //extras
+
         System.out.println(photoEntities);
 
         Mockito.when(photoRepository.saveAll(Mockito.anyList())).thenReturn(photoEntities);
