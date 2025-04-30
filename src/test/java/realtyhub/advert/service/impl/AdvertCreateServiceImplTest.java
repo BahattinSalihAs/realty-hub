@@ -2,10 +2,11 @@ package realtyhub.advert.service.impl;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -32,7 +33,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class AdvertCreateServiceImplTest {
 
     @InjectMocks
@@ -74,7 +75,7 @@ public class AdvertCreateServiceImplTest {
         final String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
         List<MultipartFile> files;
-        String filePaths = "uploads/9104d10c-b6af-4aa1-bd42-ed22b3f1d92d_Ekran görüntüsü 2023-04-01 152622.png";
+        String filePaths = "src/main/resources/static/konumm.png";
         Path path = Paths.get(filePaths);
         try {
             byte[] content = Files.readAllBytes(path);
@@ -166,24 +167,20 @@ public class AdvertCreateServiceImplTest {
                 .heatType(advertCreateRequest.getHeatType())
                 .build();
 
-        Mockito.when(advertRepository.save(Mockito.any(AdvertEntity.class))).thenReturn(advert);
 
         List<PhotoEntity> photoEntities = new ArrayList<>();
         for (MultipartFile file : advertCreateRequest.getPhotos()) {
             final String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             Path filePath = Paths.get(uploadDir + fileName);
 
-            try {
-                Files.copy(file.getInputStream(), filePath);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
             PhotoEntity photoEntity = PhotoEntity.builder()
                     .advertEntity(advert)
                     .filePath(filePath.toString())
                     .build();
             photoEntities.add(photoEntity);
         }
+
+        //extras
 
         System.out.println(photoEntities);
 
@@ -201,7 +198,6 @@ public class AdvertCreateServiceImplTest {
 
         advertCreateServiceImpl.createAdvert(advertCreateRequest);
 
-        //Mockito.verify(userRepository).save(userEntity);
         Mockito.verify(userRepository).findByEmail(userEntity.getEmail());
         Mockito.verify(addressRepository).save(Mockito.any(AddressEntity.class));
         Mockito.verify(advertRepository, Mockito.times(2)).save(Mockito.any(AdvertEntity.class));

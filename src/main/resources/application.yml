@@ -3,30 +3,25 @@ server:
 
 
 spring:
-  main:
-    allow-bean-definition-overriding: true
-    allow-circular-references: true
   jpa:
-    hibernate:
-      ddl-auto: update
-    open-in-view: true
     show-sql: true
+
   datasource:
-    url: DB_URL
-    username: DB_USERNAME
-    password: DB_PASSWORD
+    url: jdbc:postgresql://localhost:5432/realty-management
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   security:
     user:
-      name: SECURITY_USERNAME
-      password: SECURITY_PASSWORD
+      name: ${SECURITY_USER_NAME}
+      password: ${SECURITY_USER_PASSWORD}
     jwt:
-      secret: JWT_SECRET
+      secret: ${JWT_SECRET}
   mail:
-    username: MAIL_USERNAME
+    username: ${MAIL_USERNAME}
     port: 587
     host: smtp.gmail.com
-    password: MAİL_PASSWORD(mail authenticate activation password)
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:

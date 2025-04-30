@@ -1,19 +1,17 @@
 package realtyhub.advert.service.impl;
 
-import jakarta.inject.Inject;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import realtyhub.advert.repository.AdvertRepository;
-
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class AdvertNumberGenerateServiceImplTest {
 
     @InjectMocks
@@ -30,14 +28,13 @@ class AdvertNumberGenerateServiceImplTest {
         final Long oldAdvertNumber = 12345L;
         final Long newAdvertNumber = 6789L;
 
-        Mockito.when(advertRepository.existsByAdvertId(oldAdvertNumber)).thenReturn(true);
-        Mockito.when(advertRepository.existsByAdvertId(newAdvertNumber)).thenReturn(false);
+        Mockito.when(advertRepository.existsByAdvertId(Mockito.anyLong())).thenReturn(true).thenReturn(false);
 
         final Long advertId = advertNumberGenerateServiceImpl.generateAdvertNumber();
 
-        Assert.assertNotEquals(oldAdvertNumber, advertId);
+        Assertions.assertNotEquals(oldAdvertNumber, advertId);
 
-        Mockito.verify(advertRepository, Mockito.times(1)).existsByAdvertId(Mockito.anyLong());
+        Mockito.verify(advertRepository, Mockito.times(2)).existsByAdvertId(Mockito.anyLong());
 
     }
 }

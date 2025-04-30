@@ -2,9 +2,11 @@ package realtyhub.user.service.impl;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import realtyhub.common.util.PasswordEncryptorUtil;
 import realtyhub.user.model.dto.request.UserDeleteRequest;
@@ -18,9 +20,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class UserDeleteServiceImplTest {
 
     @InjectMocks
